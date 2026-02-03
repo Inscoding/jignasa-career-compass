@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect, useMemo } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@/components/ui/button';
 import { LanguageSwitcher } from '@/components/LanguageSwitcher';
@@ -7,96 +7,128 @@ import { ScoreCircle } from '@/components/results/ScoreCircle';
 import { CareerCard } from '@/components/results/CareerCard';
 import { CareerRoadmap } from '@/components/results/CareerRoadmap';
 import { AIReasoningPanel } from '@/components/results/AIReasoningPanel';
-import { Sparkles, Download, ArrowLeft, RefreshCw } from 'lucide-react';
+import { Sparkles, Download, ArrowLeft, RefreshCw, Loader2, AlertCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
-
-// Mock data for demonstration
-const mockCareers = [
-  {
-    title: 'Software Developer',
-    matchScore: 87,
-    breakdown: { academic: 92, skill: 85, interest: 88, opportunity: 82 },
-    salaryRange: '₹4-12 LPA',
-    timeToAchieve: '2-3 Years',
-    type: 'private' as const,
-    nearbyLocations: ['Hyderabad', 'Bangalore'],
-    description: 'Build applications and solve problems using programming. High demand in IT hubs with growing remote work opportunities.',
-  },
-  {
-    title: 'Bank Officer (IBPS PO)',
-    matchScore: 82,
-    breakdown: { academic: 88, skill: 78, interest: 80, opportunity: 85 },
-    salaryRange: '₹5-8 LPA',
-    timeToAchieve: '1-2 Years',
-    type: 'government' as const,
-    nearbyLocations: ['Local Branch', 'District HQ'],
-    description: 'Manage banking operations, customer service, and financial transactions. Stable career with government benefits.',
-  },
-  {
-    title: 'Agricultural Entrepreneur',
-    matchScore: 75,
-    breakdown: { academic: 70, skill: 80, interest: 78, opportunity: 90 },
-    salaryRange: '₹3-10 LPA',
-    timeToAchieve: '1-2 Years',
-    type: 'self-employed' as const,
-    nearbyLocations: ['Your Village', 'Nearby Mandal'],
-    description: 'Start agri-business in organic farming, dairy, or processing. High local opportunity with government subsidies available.',
-  },
-];
-
-const mockRoadmap = [
-  {
-    title: 'Complete Foundational Course',
-    description: 'Enroll in free online programming courses (NPTEL, Coursera). Learn basics of Python or JavaScript.',
-    duration: '3 Months',
-    type: 'education' as const,
-  },
-  {
-    title: 'Build Portfolio Projects',
-    description: 'Create 3-5 small projects showcasing your skills. Use GitHub to store your code.',
-    duration: '4 Months',
-    type: 'skill' as const,
-  },
-  {
-    title: 'Get Certified',
-    description: 'Complete industry-recognized certification from Google, Microsoft, or AWS.',
-    duration: '2 Months',
-    type: 'education' as const,
-  },
-  {
-    title: 'Internship/Apprenticeship',
-    description: 'Apply for internships in local IT companies or remote positions. Focus on gaining real experience.',
-    duration: '6 Months',
-    type: 'experience' as const,
-  },
-  {
-    title: 'Land Your First Job',
-    description: 'Apply to entry-level positions. Target companies with training programs. Prepare for interviews.',
-    duration: 'Ongoing',
-    type: 'goal' as const,
-  },
-];
-
-const mockReasoning = {
-  summary: 'Based on your strong performance in mathematics and science, combined with your interest in technology, Software Development emerges as a highly suitable career path. Your location in Telangana provides excellent access to Hyderabad\'s thriving IT sector, and your ability to relocate further expands opportunities.',
-  strengths: [
-    'Strong analytical skills indicated by 85%+ in Mathematics',
-    'Natural inclination towards problem-solving',
-    'Interest alignment with technology sector',
-    'Proximity to major IT hub (Hyderabad)',
-  ],
-  considerations: [
-    'Initial investment needed for laptop/internet',
-    'Continuous learning required in fast-changing field',
-    'Competition is high - focus on specialization',
-  ],
-  localInsight: 'Telangana\'s IT policy offers special incentives for rural youth entering tech. TASK (Telangana Academy for Skill and Knowledge) provides subsidized training. Multiple IT companies have offices in Warangal, reducing need for immediate relocation to Hyderabad.',
-};
+import { UserProfile, generateCareerMatches, CareerMatch } from '@/lib/careerMatchingEngine';
+import { generateCareerReport } from '@/lib/pdfGenerator';
+import { toast } from '@/hooks/use-toast';
 
 const Results = () => {
   const { t } = useLanguage();
   const navigate = useNavigate();
-  const [selectedCareer, setSelectedCareer] = useState(0);
+  const location = useLocation();
+  
+  const [selectedCareerIndex, setSelectedCareerIndex] = useState<number | null>(null);
+  const [isGeneratingReport, setIsGeneratingReport] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  
+  // Get user data from navigation state
+  const userData = location.state?.userData as UserProfile | undefined;
+  
+  // Generate career matches based on user data
+  const careerMatches = useMemo(() => {
+    if (!userData) return [];
+    return generateCareerMatches(userData);
+  }, [userData]);
+  
+  // Selected career details
+  const selectedCareer = selectedCareerIndex !== null ? careerMatches[selectedCareerIndex] : null;
+  
+  // Simulate loading for analysis effect
+  useEffect(() => {
+    if (userData) {
+      const timer = setTimeout(() => {
+        setIsLoading(false);
+        // Auto-select first career after loading
+        if (careerMatches.length > 0) {
+          setSelectedCareerIndex(0);
+        }
+      }, 500);
+      return () => clearTimeout(timer);
+    } else {
+      setIsLoading(false);
+    }
+  }, [userData, careerMatches.length]);
+  
+  // Handle career selection
+  const handleSelectCareer = (index: number) => {
+    setSelectedCareerIndex(index);
+    // Scroll to roadmap section
+    setTimeout(() => {
+      document.getElementById('roadmap-section')?.scrollIntoView({ behavior: 'smooth' });
+    }, 100);
+  };
+  
+  // Handle PDF download
+  const handleDownloadReport = async () => {
+    if (!userData || !selectedCareer) {
+      toast({
+        title: "Cannot generate report",
+        description: "Please select a career first",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    setIsGeneratingReport(true);
+    
+    try {
+      await generateCareerReport({
+        profile: userData,
+        matches: careerMatches,
+        selectedCareer: selectedCareer,
+        generatedAt: new Date()
+      });
+      
+      toast({
+        title: "Report downloaded!",
+        description: "Your personalized career report has been saved.",
+      });
+    } catch (error) {
+      console.error('Error generating report:', error);
+      toast({
+        title: "Error generating report",
+        description: "Please try again later",
+        variant: "destructive"
+      });
+    } finally {
+      setIsGeneratingReport(false);
+    }
+  };
+  
+  // If no user data, show message to complete assessment
+  if (!userData) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center p-8 max-w-md">
+          <AlertCircle className="w-16 h-16 text-warning mx-auto mb-4" />
+          <h2 className="text-2xl font-bold text-foreground mb-2">No Assessment Data Found</h2>
+          <p className="text-muted-foreground mb-6">
+            Please complete the career assessment first to see your personalized recommendations.
+          </p>
+          <Button variant="gradient" onClick={() => navigate('/onboarding')}>
+            Start Assessment
+          </Button>
+        </div>
+      </div>
+    );
+  }
+  
+  // Loading state
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center animate-fade-in">
+          <div className="w-24 h-24 rounded-full hero-gradient flex items-center justify-center mx-auto mb-6 pulse-glow">
+            <Sparkles className="w-12 h-12 text-primary-foreground animate-pulse" />
+          </div>
+          <h2 className="text-2xl font-bold text-foreground mb-2">Finalizing Results</h2>
+          <p className="text-muted-foreground mb-4">Preparing your personalized career recommendations...</p>
+          <Loader2 className="w-6 h-6 animate-spin mx-auto text-saffron" />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background">
@@ -131,13 +163,28 @@ const Results = () => {
               {t('results.subtitle')}
             </p>
             
-            {/* Main Score */}
+            {/* Main Score - shows selected career score or top match */}
             <div className="animate-scale-in stagger-2">
               <ScoreCircle 
-                score={mockCareers[selectedCareer].matchScore} 
+                score={selectedCareer?.matchScore ?? careerMatches[0]?.matchScore ?? 0} 
                 size="lg" 
-                label={t('results.matchScore')} 
+                label={selectedCareer ? `${selectedCareer.career.title}` : t('results.matchScore')} 
               />
+            </div>
+            
+            {/* User context summary */}
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-2 text-sm">
+              <span className="px-3 py-1 rounded-full bg-saffron/10 text-saffron">
+                {userData.education === '10th' ? '10th Standard' : 
+                 userData.education === '12th' ? '12th Standard' : 
+                 userData.education === 'graduate' ? 'Graduate' : 'Post Graduate'}
+              </span>
+              <span className="px-3 py-1 rounded-full bg-navy/10 text-navy">
+                {userData.location.state}
+              </span>
+              <span className="px-3 py-1 rounded-full bg-success/10 text-success">
+                {userData.interests.slice(0, 2).join(', ')}
+              </span>
             </div>
           </div>
         </section>
@@ -145,46 +192,95 @@ const Results = () => {
         <div className="container-wide">
           {/* Career Cards */}
           <section className="mb-12">
-            <h2 className="text-xl font-bold text-foreground mb-6">Top Career Matches</h2>
+            <h2 className="text-xl font-bold text-foreground mb-2">Top Career Matches</h2>
+            <p className="text-muted-foreground mb-6">
+              Based on your profile, interests, and local opportunities. Click on a career to see the full roadmap.
+            </p>
             <div className="grid md:grid-cols-3 gap-6">
-              {mockCareers.map((career, index) => (
+              {careerMatches.slice(0, 6).map((match, index) => (
                 <CareerCard
-                  key={index}
-                  career={career}
+                  key={match.career.id}
+                  career={{
+                    title: match.career.title,
+                    matchScore: match.matchScore,
+                    breakdown: match.breakdown,
+                    salaryRange: match.career.salaryRange.display,
+                    timeToAchieve: match.career.timeToAchieve,
+                    type: match.career.type,
+                    nearbyLocations: match.nearbyLocations,
+                    description: match.career.description
+                  }}
                   rank={index + 1}
-                  isSelected={selectedCareer === index}
-                  onSelect={() => setSelectedCareer(index)}
+                  isSelected={selectedCareerIndex === index}
+                  onSelect={() => handleSelectCareer(index)}
                 />
               ))}
             </div>
           </section>
 
-          {/* Detailed View */}
-          <div className="grid lg:grid-cols-2 gap-8 mb-12">
-            {/* Roadmap */}
-            <CareerRoadmap 
-              steps={mockRoadmap} 
-              careerTitle={mockCareers[selectedCareer].title} 
-            />
+          {/* Detailed View - Only show when career is selected */}
+          {selectedCareer && (
+            <div id="roadmap-section" className="grid lg:grid-cols-2 gap-8 mb-12 animate-fade-in">
+              {/* Roadmap */}
+              <CareerRoadmap 
+                steps={selectedCareer.career.roadmap} 
+                careerTitle={selectedCareer.career.title} 
+              />
 
-            {/* AI Reasoning */}
-            <AIReasoningPanel
-              reasoning={mockReasoning}
-              careerTitle={mockCareers[selectedCareer].title}
-            />
-          </div>
+              {/* AI Reasoning */}
+              <AIReasoningPanel
+                reasoning={selectedCareer.personalizedReasoning}
+                careerTitle={selectedCareer.career.title}
+              />
+            </div>
+          )}
+          
+          {/* Prompt to select if no selection */}
+          {!selectedCareer && (
+            <div className="text-center py-12 mb-12 bg-muted/30 rounded-2xl border border-border/50">
+              <Sparkles className="w-12 h-12 text-saffron mx-auto mb-4" />
+              <h3 className="text-lg font-semibold text-foreground mb-2">
+                Select a Career to View Full Roadmap
+              </h3>
+              <p className="text-muted-foreground">
+                Click on any career card above to see the step-by-step roadmap and AI reasoning.
+              </p>
+            </div>
+          )}
 
           {/* Actions */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Button variant="gradient" size="lg" className="gap-2">
-              <Download className="w-5 h-5" />
-              {t('results.download')}
+            <Button 
+              variant="gradient" 
+              size="lg" 
+              className="gap-2"
+              onClick={handleDownloadReport}
+              disabled={!selectedCareer || isGeneratingReport}
+            >
+              {isGeneratingReport ? (
+                <>
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                  Generating Report...
+                </>
+              ) : (
+                <>
+                  <Download className="w-5 h-5" />
+                  {t('results.download')}
+                </>
+              )}
             </Button>
             <Button variant="outline" size="lg" onClick={() => navigate('/')}>
               <ArrowLeft className="w-5 h-5 mr-2" />
               Back to Home
             </Button>
           </div>
+          
+          {/* Disclaimer */}
+          <p className="text-xs text-muted-foreground text-center mt-8 max-w-2xl mx-auto">
+            <strong>Disclaimer:</strong> This AI-generated guidance is based on the information you provided. 
+            Actual career outcomes depend on individual effort, market conditions, and opportunities. 
+            We recommend consulting with career counselors and industry professionals.
+          </p>
         </div>
       </main>
 

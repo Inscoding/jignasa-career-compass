@@ -1,12 +1,6 @@
 import { useLanguage } from '@/contexts/LanguageContext';
-import { Check, Circle, BookOpen, Award, Briefcase, Target } from 'lucide-react';
-
-interface RoadmapStep {
-  title: string;
-  description: string;
-  duration: string;
-  type: 'education' | 'skill' | 'experience' | 'goal';
-}
+import { BookOpen, Award, Briefcase, Target } from 'lucide-react';
+import { RoadmapStep } from '@/lib/careerData';
 
 interface CareerRoadmapProps {
   steps: RoadmapStep[];
@@ -44,7 +38,7 @@ export function CareerRoadmap({ steps, careerTitle }: CareerRoadmapProps) {
           {steps.map((step, index) => {
             const Icon = stepIcons[step.type];
             return (
-              <div key={index} className="relative flex gap-6 animate-fade-in-up" style={{ animationDelay: `${index * 0.1}s` }}>
+              <div key={`${careerTitle}-step-${index}`} className="relative flex gap-6 animate-fade-in-up" style={{ animationDelay: `${index * 0.1}s` }}>
                 {/* Icon */}
                 <div className={`relative z-10 w-12 h-12 rounded-xl ${stepColors[step.type]} flex items-center justify-center shrink-0`}>
                   <Icon className="w-6 h-6 text-primary-foreground" />

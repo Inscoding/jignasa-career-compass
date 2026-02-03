@@ -23,7 +23,7 @@ export function AIReasoningPanel({ reasoning, careerTitle }: AIReasoningPanelPro
         </div>
         <div>
           <h3 className="text-xl font-bold">{t('results.aiReasoning')}</h3>
-          <p className="text-secondary-foreground/70 text-sm">{t('results.whyThis')}</p>
+          <p className="text-secondary-foreground/70 text-sm">Why {careerTitle} suits you</p>
         </div>
       </div>
 
