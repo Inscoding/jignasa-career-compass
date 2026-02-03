@@ -106,7 +106,7 @@ export function CareerCard({ career, rank, onSelect, isSelected }: CareerCardPro
           className="w-full"
           onClick={onSelect}
         >
-          {isSelected ? 'View Full Roadmap' : 'Select This Career'}
+          {isSelected ? 'View Full Roadmap ↓' : 'Select This Career'}
           <ChevronRight className="w-4 h-4" />
         </Button>
       </div>
