@@ -25,34 +25,34 @@ export function CareerRoadmap({ steps, careerTitle }: CareerRoadmapProps) {
   const { t } = useLanguage();
 
   return (
-    <div className="bg-card rounded-2xl border border-border p-6 sm:p-8">
-      <h3 className="text-xl font-bold text-foreground mb-2">{t('results.roadmap')}</h3>
-      <p className="text-muted-foreground mb-8">Your step-by-step path to becoming a {careerTitle}</p>
+    <div className="bg-card rounded-xl border border-border p-5 sm:p-6">
+      <h3 className="heading-md mb-1">{t('results.roadmap')}</h3>
+      <p className="body-text mb-5">Your path to becoming a {careerTitle}</p>
 
       <div className="relative">
         {/* Timeline Line */}
-        <div className="absolute left-6 top-0 bottom-0 w-0.5 bg-gradient-to-b from-saffron via-navy to-success" />
+        <div className="absolute left-5 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary via-secondary to-success" />
 
         {/* Steps */}
-        <div className="space-y-8">
+        <div className="space-y-5">
           {steps.map((step, index) => {
             const Icon = stepIcons[step.type];
             return (
-              <div key={`${careerTitle}-step-${index}`} className="relative flex gap-6 animate-fade-in-up" style={{ animationDelay: `${index * 0.1}s` }}>
+              <div key={`${careerTitle}-step-${index}`} className="relative flex gap-4 animate-fade-in-up" style={{ animationDelay: `${index * 0.1}s` }}>
                 {/* Icon */}
-                <div className={`relative z-10 w-12 h-12 rounded-xl ${stepColors[step.type]} flex items-center justify-center shrink-0`}>
-                  <Icon className="w-6 h-6 text-primary-foreground" />
+                <div className={`relative z-10 w-10 h-10 rounded-lg ${stepColors[step.type]} flex items-center justify-center shrink-0`}>
+                  <Icon className="w-5 h-5 text-primary-foreground" />
                 </div>
 
                 {/* Content */}
-                <div className="flex-1 bg-muted/30 rounded-xl p-5 border border-border/50">
-                  <div className="flex items-start justify-between gap-4 mb-2">
-                    <h4 className="font-semibold text-foreground">{step.title}</h4>
-                    <span className="text-xs px-2 py-1 rounded-full bg-saffron/10 text-saffron font-medium shrink-0">
+                <div className="flex-1 bg-muted/30 rounded-lg p-4 border border-border/50">
+                  <div className="flex items-start justify-between gap-3 mb-1.5">
+                    <h4 className="heading-sm text-sm">{step.title}</h4>
+                    <span className="text-[10px] px-2 py-0.5 rounded-full bg-primary/10 text-primary font-medium shrink-0">
                       {step.duration}
                     </span>
                   </div>
-                  <p className="text-sm text-muted-foreground">{step.description}</p>
+                  <p className="caption-text leading-relaxed">{step.description}</p>
                 </div>
               </div>
             );

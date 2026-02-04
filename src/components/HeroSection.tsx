@@ -123,12 +123,12 @@ export function HeroSection() {
               </div>
 
               {/* Floating Elements */}
-              <div className="absolute -top-4 -right-4 bg-success text-success-foreground px-4 py-2 rounded-lg shadow-lg font-medium text-sm float">
+              <div className="absolute -top-3 -right-3 bg-success text-success-foreground px-3 py-1.5 rounded-lg shadow-lg font-medium text-xs float">
                 ✓ Government Jobs Available
               </div>
-              <div className="absolute -bottom-4 -left-4 bg-card border border-border shadow-lg px-4 py-2 rounded-lg float" style={{ animationDelay: '1s' }}>
-                <span className="text-sm text-muted-foreground">Nearby: </span>
-                <span className="text-sm font-medium text-foreground">Hyderabad, Warangal</span>
+              <div className="absolute -bottom-3 -left-3 bg-card border border-border shadow-lg px-3 py-1.5 rounded-lg float" style={{ animationDelay: '1s' }}>
+                <span className="text-xs text-muted-foreground">Nearby: </span>
+                <span className="text-xs font-medium text-foreground">Hyderabad, Warangal</span>
               </div>
             </div>
           </div>
