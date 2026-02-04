@@ -194,6 +194,41 @@
     background: linear-gradient(90deg, transparent, hsl(0 0% 100% / 0.2), transparent);
     animation: shimmer 2s infinite;
   }
+  
+  /* Typography consistency */
+  .heading-lg {
+    @apply text-2xl sm:text-3xl font-bold text-foreground leading-tight;
+  }
+  
+  .heading-md {
+    @apply text-lg sm:text-xl font-semibold text-foreground leading-snug;
+  }
+  
+  .heading-sm {
+    @apply text-base font-semibold text-foreground;
+  }
+  
+  .body-text {
+    @apply text-sm text-muted-foreground leading-relaxed;
+  }
+  
+  .caption-text {
+    @apply text-xs text-muted-foreground;
+  }
+  
+  /* Card consistency */
+  .card-base {
+    @apply bg-card rounded-xl border border-border p-4 sm:p-5;
+  }
+  
+  .card-interactive {
+    @apply card-base transition-all duration-200 hover:shadow-sm hover:border-primary/30;
+  }
+  
+  /* Button height consistency */
+  .btn-consistent {
+    @apply h-9 sm:h-10 px-4 text-sm font-medium;
+  }
 }
 
 @layer utilities {

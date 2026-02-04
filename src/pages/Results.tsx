@@ -152,51 +152,60 @@ const Results = () => {
       </header>
 
       {/* Main Content */}
-      <main className="pt-24 pb-16">
-        {/* Hero Section */}
-        <section className="bg-gradient-to-br from-saffron-light via-background to-background py-12 mb-12">
-          <div className="container-wide text-center">
-            <h1 className="text-3xl sm:text-4xl font-bold text-foreground mb-2 animate-fade-in">
-              {t('results.title')}
-            </h1>
-            <p className="text-muted-foreground mb-8 animate-fade-in stagger-1">
-              {t('results.subtitle')}
-            </p>
-            
-            {/* Main Score - shows selected career score or top match */}
-            <div className="animate-scale-in stagger-2">
-              <ScoreCircle 
-                score={selectedCareer?.matchScore ?? careerMatches[0]?.matchScore ?? 0} 
-                size="lg" 
-                label={selectedCareer ? `${selectedCareer.career.title}` : t('results.matchScore')} 
-              />
-            </div>
-            
-            {/* User context summary */}
-            <div className="mt-6 flex flex-wrap items-center justify-center gap-2 text-sm">
-              <span className="px-3 py-1 rounded-full bg-saffron/10 text-saffron">
-                {userData.education === '10th' ? '10th Standard' : 
-                 userData.education === '12th' ? '12th Standard' : 
-                 userData.education === 'graduate' ? 'Graduate' : 'Post Graduate'}
-              </span>
-              <span className="px-3 py-1 rounded-full bg-navy/10 text-navy">
-                {userData.location.state}
-              </span>
-              <span className="px-3 py-1 rounded-full bg-success/10 text-success">
-                {userData.interests.slice(0, 2).join(', ')}
-              </span>
+      <main className="pt-20 pb-12">
+        {/* Hero Section - Compact and balanced */}
+        <section className="bg-gradient-to-br from-saffron-light via-background to-background py-6 sm:py-8 mb-8">
+          <div className="container-wide">
+            <div className="flex flex-col lg:flex-row items-center justify-center gap-6 lg:gap-10">
+              {/* Score Circle */}
+              <div className="animate-scale-in shrink-0">
+                <ScoreCircle 
+                  score={selectedCareer?.matchScore ?? careerMatches[0]?.matchScore ?? 0} 
+                  size="md" 
+                  label={selectedCareer ? selectedCareer.career.title : t('results.matchScore')} 
+                />
+              </div>
+              
+              {/* Content */}
+              <div className="text-center lg:text-left flex-1 max-w-xl">
+                <h1 className="text-2xl sm:text-3xl font-bold text-foreground mb-1.5 animate-fade-in">
+                  {t('results.title')}
+                </h1>
+                <p className="text-sm text-muted-foreground mb-4 animate-fade-in stagger-1">
+                  {t('results.subtitle')}
+                </p>
+                
+                {/* User context badges - single row */}
+                <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2 animate-fade-in stagger-2">
+                  <span className="inline-flex items-center px-2.5 py-1 rounded-full bg-primary/10 text-primary text-xs font-medium">
+                    {userData.education === '10th' ? '10th Std' : 
+                     userData.education === '12th' ? '12th Std' : 
+                     userData.education === 'graduate' ? 'Graduate' : 'PG'}
+                  </span>
+                  <span className="inline-flex items-center px-2.5 py-1 rounded-full bg-secondary/10 text-secondary text-xs font-medium">
+                    {userData.location.state}
+                  </span>
+                  {userData.interests.slice(0, 2).map((interest, i) => (
+                    <span key={i} className="inline-flex items-center px-2.5 py-1 rounded-full bg-success/10 text-success text-xs font-medium">
+                      {interest}
+                    </span>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         </section>
 
         <div className="container-wide">
           {/* Career Cards */}
-          <section className="mb-12">
-            <h2 className="text-xl font-bold text-foreground mb-2">Top Career Matches</h2>
-            <p className="text-muted-foreground mb-6">
-              Based on your profile, interests, and local opportunities. Click on a career to see the full roadmap.
-            </p>
-            <div className="grid md:grid-cols-3 gap-6">
+          <section className="mb-10">
+            <div className="mb-5">
+              <h2 className="text-lg sm:text-xl font-bold text-foreground mb-1">Top Career Matches</h2>
+              <p className="text-sm text-muted-foreground">
+                Based on your profile, interests, and local opportunities.
+              </p>
+            </div>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
               {careerMatches.slice(0, 6).map((match, index) => (
                 <CareerCard
                   key={match.career.id}
@@ -210,6 +219,7 @@ const Results = () => {
                     nearbyLocations: match.nearbyLocations,
                     description: match.career.description
                   }}
+                  stateName={userData.location.state}
                   rank={index + 1}
                   isSelected={selectedCareerIndex === index}
                   onSelect={() => handleSelectCareer(index)}
@@ -220,7 +230,7 @@ const Results = () => {
 
           {/* Detailed View - Only show when career is selected */}
           {selectedCareer && (
-            <div id="roadmap-section" className="grid lg:grid-cols-2 gap-8 mb-12 animate-fade-in">
+            <div id="roadmap-section" className="grid lg:grid-cols-2 gap-5 mb-10 animate-fade-in">
               {/* Roadmap */}
               <CareerRoadmap 
                 steps={selectedCareer.career.roadmap} 
@@ -237,57 +247,57 @@ const Results = () => {
           
           {/* Prompt to select if no selection */}
           {!selectedCareer && (
-            <div className="text-center py-12 mb-12 bg-muted/30 rounded-2xl border border-border/50">
-              <Sparkles className="w-12 h-12 text-saffron mx-auto mb-4" />
-              <h3 className="text-lg font-semibold text-foreground mb-2">
+            <div className="text-center py-8 sm:py-10 mb-10 bg-muted/30 rounded-xl border border-border/50">
+              <Sparkles className="w-10 h-10 text-primary mx-auto mb-3" />
+              <h3 className="heading-sm mb-1.5">
                 Select a Career to View Full Roadmap
               </h3>
-              <p className="text-muted-foreground">
-                Click on any career card above to see the step-by-step roadmap and AI reasoning.
+              <p className="body-text">
+                Click on any career card above to see details and AI reasoning.
               </p>
             </div>
           )}
 
           {/* Actions */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
             <Button 
               variant="gradient" 
-              size="lg" 
-              className="gap-2"
+              size="default" 
+              className="gap-2 h-10"
               onClick={handleDownloadReport}
               disabled={!selectedCareer || isGeneratingReport}
             >
               {isGeneratingReport ? (
                 <>
-                  <Loader2 className="w-5 h-5 animate-spin" />
-                  Generating Report...
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  Generating...
                 </>
               ) : (
                 <>
-                  <Download className="w-5 h-5" />
+                  <Download className="w-4 h-4" />
                   {t('results.download')}
                 </>
               )}
             </Button>
-            <Button variant="outline" size="lg" onClick={() => navigate('/')}>
-              <ArrowLeft className="w-5 h-5 mr-2" />
+            <Button variant="outline" size="default" className="h-10" onClick={() => navigate('/')}>
+              <ArrowLeft className="w-4 h-4 mr-2" />
               Back to Home
             </Button>
           </div>
           
           {/* Disclaimer */}
-          <p className="text-xs text-muted-foreground text-center mt-8 max-w-2xl mx-auto">
-            <strong>Disclaimer:</strong> This AI-generated guidance is based on the information you provided. 
-            Actual career outcomes depend on individual effort, market conditions, and opportunities. 
-            We recommend consulting with career counselors and industry professionals.
+          <p className="caption-text text-center mt-6 max-w-xl mx-auto leading-relaxed">
+            <strong>Disclaimer:</strong> This AI-generated guidance is based on your inputs. 
+            Results depend on effort, market conditions, and opportunities. 
+            Consult career counselors for personalized advice.
           </p>
         </div>
       </main>
 
       {/* Footer */}
-      <footer className="bg-muted/30 py-8 border-t border-border">
+      <footer className="bg-muted/30 py-6 border-t border-border">
         <div className="container-wide text-center">
-          <p className="text-sm text-muted-foreground">
+          <p className="caption-text">
             © 2024 JIGNASA. Made with ❤️ for Rural India.
           </p>
         </div>
