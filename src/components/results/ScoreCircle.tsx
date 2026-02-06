@@ -35,8 +35,8 @@ export function ScoreCircle({ score, size = 'md', label }: ScoreCircleProps) {
 
   return (
     <div className="flex flex-col items-center">
-      <div className={`relative ${config.container}`}>
-        <svg className="w-full h-full -rotate-90" viewBox="0 0 120 120">
+      <div className={`relative ${config.container} overflow-hidden`}>
+        <svg className="w-full h-full -rotate-90 relative z-10" viewBox="0 0 120 120">
           {/* Background Circle */}
           <circle
             cx="60"
@@ -60,9 +60,9 @@ export function ScoreCircle({ score, size = 'md', label }: ScoreCircleProps) {
             className={`transition-all duration-700 ease-out ${getScoreColor()}`}
           />
         </svg>
-        {/* Score Text */}
-        <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <span className={`font-bold ${config.text} ${getScoreColor().split(' ')[0]}`}>
+        {/* Score Text - highest z-index, perfectly centered */}
+        <div className="absolute inset-0 flex flex-col items-center justify-center z-20">
+          <span className={`font-bold ${config.text} ${getScoreColor().split(' ')[0]} relative`}>
             {Math.round(animatedScore)}%
           </span>
         </div>
