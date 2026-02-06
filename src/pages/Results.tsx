@@ -7,7 +7,7 @@ import { ScoreCircle } from '@/components/results/ScoreCircle';
 import { CareerCard } from '@/components/results/CareerCard';
 import { CareerRoadmap } from '@/components/results/CareerRoadmap';
 import { AIReasoningPanel } from '@/components/results/AIReasoningPanel';
-import { Sparkles, Download, ArrowLeft, RefreshCw, Loader2, AlertCircle } from 'lucide-react';
+import { Compass, Download, ArrowLeft, RefreshCw, Loader2, AlertCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { UserProfile, generateCareerMatches, CareerMatch } from '@/lib/careerMatchingEngine';
 import { generateCareerReport } from '@/lib/pdfGenerator';
@@ -120,7 +120,7 @@ const Results = () => {
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center animate-fade-in">
           <div className="w-24 h-24 rounded-full hero-gradient flex items-center justify-center mx-auto mb-6 pulse-glow">
-            <Sparkles className="w-12 h-12 text-primary-foreground animate-pulse" />
+            <Compass className="w-12 h-12 text-primary-foreground animate-pulse" />
           </div>
           <h2 className="text-2xl font-bold text-foreground mb-2">Finalizing Results</h2>
           <p className="text-muted-foreground mb-4">Preparing your personalized career recommendations...</p>
@@ -137,9 +137,9 @@ const Results = () => {
         <div className="container-wide flex h-16 items-center justify-between">
           <Link to="/" className="flex items-center gap-2">
             <div className="w-10 h-10 rounded-xl hero-gradient flex items-center justify-center">
-              <Sparkles className="w-5 h-5 text-primary-foreground" />
+              <Compass className="w-5 h-5 text-primary-foreground" />
             </div>
-            <span className="text-xl font-bold text-foreground">JIGNASA</span>
+            <span className="text-xl font-bold text-foreground">Margadarshi AI</span>
           </Link>
           <div className="flex items-center gap-4">
             <LanguageSwitcher />
@@ -248,7 +248,7 @@ const Results = () => {
           {/* Prompt to select if no selection */}
           {!selectedCareer && (
             <div className="text-center py-8 sm:py-10 mb-10 bg-muted/30 rounded-xl border border-border/50">
-              <Sparkles className="w-10 h-10 text-primary mx-auto mb-3" />
+              <Compass className="w-10 h-10 text-primary mx-auto mb-3" />
               <h3 className="heading-sm mb-1.5">
                 Select a Career to View Full Roadmap
               </h3>
@@ -298,7 +298,7 @@ const Results = () => {
       <footer className="bg-muted/30 py-6 border-t border-border">
         <div className="container-wide text-center">
           <p className="caption-text">
-            © 2024 JIGNASA. Made with ❤️ for Rural India.
+            © 2024 Margadarshi AI. Built for Career Guidance.
           </p>
         </div>
       </footer>

@@ -9,7 +9,7 @@ import { InterestsStep } from '@/components/onboarding/InterestsStep';
 import { LocationStep } from '@/components/onboarding/LocationStep';
 import { FinanceStep } from '@/components/onboarding/FinanceStep';
 import { LanguageSwitcher } from '@/components/LanguageSwitcher';
-import { ArrowLeft, ArrowRight, Sparkles, Loader2 } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Compass, Loader2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 interface OnboardingData {
@@ -123,7 +123,7 @@ const Onboarding = () => {
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center animate-fade-in">
           <div className="w-24 h-24 rounded-full hero-gradient flex items-center justify-center mx-auto mb-6 pulse-glow">
-            <Sparkles className="w-12 h-12 text-primary-foreground animate-pulse" />
+            <Compass className="w-12 h-12 text-primary-foreground animate-pulse" />
           </div>
           <h2 className="text-2xl font-bold text-foreground mb-2">Analyzing Your Profile</h2>
           <p className="text-muted-foreground mb-4">Our AI is matching you with the best career paths...</p>
@@ -140,9 +140,9 @@ const Onboarding = () => {
         <div className="container-wide flex h-16 items-center justify-between">
           <Link to="/" className="flex items-center gap-2">
             <div className="w-10 h-10 rounded-xl hero-gradient flex items-center justify-center">
-              <Sparkles className="w-5 h-5 text-primary-foreground" />
+              <Compass className="w-5 h-5 text-primary-foreground" />
             </div>
-            <span className="text-xl font-bold text-foreground">JIGNASA</span>
+            <span className="text-xl font-bold text-foreground">Margadarshi AI</span>
           </Link>
           <LanguageSwitcher />
         </div>
@@ -188,7 +188,7 @@ const Onboarding = () => {
             {currentStep === steps.length - 1 ? (
               <>
                 {t('onboarding.complete')}
-                <Sparkles className="w-4 h-4" />
+                <Compass className="w-4 h-4" />
               </>
             ) : (
               <>

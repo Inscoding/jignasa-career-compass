@@ -28,7 +28,7 @@ const translations: Record<Language, Record<string, string>> = {
     'hero.languages': 'Languages',
     
     // Features
-    'features.title': 'How JIGNASA Works',
+    'features.title': 'How Margadarshi AI Works',
     'features.subtitle': 'A simple, intelligent process to discover your ideal career path',
     'features.step1.title': 'Tell Us About You',
     'features.step1.desc': 'Share your education, interests, and goals through our conversational assessment',
@@ -100,7 +100,7 @@ const translations: Record<Language, Record<string, string>> = {
     'footer.contact': 'Contact Us',
     'footer.privacy': 'Privacy Policy',
     'footer.terms': 'Terms of Service',
-    'footer.copyright': '© 2024 JIGNASA. Made for India.',
+    'footer.copyright': '© 2024 Margadarshi AI. Built for Career Guidance.',
   },
   hi: {
     // Navigation
@@ -121,7 +121,7 @@ const translations: Record<Language, Record<string, string>> = {
     'hero.languages': 'भाषाएं',
     
     // Features
-    'features.title': 'JIGNASA कैसे काम करता है',
+    'features.title': 'Margadarshi AI कैसे काम करता है',
     'features.subtitle': 'अपने आदर्श करियर पथ को खोजने की एक सरल, बुद्धिमान प्रक्रिया',
     'features.step1.title': 'हमें अपने बारे में बताएं',
     'features.step1.desc': 'हमारे संवादात्मक मूल्यांकन के माध्यम से अपनी शिक्षा, रुचियां और लक्ष्य साझा करें',
@@ -156,7 +156,7 @@ const translations: Record<Language, Record<string, string>> = {
     
     // Footer
     'footer.tagline': 'AI-संचालित करियर मार्गदर्शन के साथ ग्रामीण भारत को सशक्त बनाना',
-    'footer.copyright': '© 2024 JIGNASA। भारत के लिए बनाया गया।',
+    'footer.copyright': '© 2024 Margadarshi AI। करियर मार्गदर्शन के लिए बनाया गया।',
   },
   te: {
     // Navigation
@@ -177,7 +177,7 @@ const translations: Record<Language, Record<string, string>> = {
     'hero.languages': 'భాషలు',
     
     // Features
-    'features.title': 'JIGNASA ఎలా పనిచేస్తుంది',
+    'features.title': 'Margadarshi AI ఎలా పనిచేస్తుంది',
     'features.subtitle': 'మీ ఆదర్శ కెరీర్ మార్గాన్ని కనుగొనడానికి ఒక సరళమైన, తెలివైన ప్రక్రియ',
     
     // Results
@@ -192,7 +192,7 @@ const translations: Record<Language, Record<string, string>> = {
     
     // Footer
     'footer.tagline': 'AI-ఆధారిత కెరీర్ మార్గదర్శకత్వంతో గ్రామీణ భారతదేశాన్ని శక్తివంతం చేయడం',
-    'footer.copyright': '© 2024 JIGNASA. భారతదేశం కోసం తయారు చేయబడింది.',
+    'footer.copyright': '© 2024 Margadarshi AI. కెరీర్ మార్గదర్శకత్వం కోసం నిర్మించబడింది.',
   },
 };
 

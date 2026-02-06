@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { LanguageSwitcher } from './LanguageSwitcher';
 import { Button } from '@/components/ui/button';
-import { Menu, X, Sparkles } from 'lucide-react';
+import { Menu, X, Compass } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 
 export function Navbar() {
@@ -17,9 +17,9 @@ export function Navbar() {
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 group">
             <div className="w-10 h-10 rounded-xl hero-gradient flex items-center justify-center shadow-md group-hover:shadow-glow transition-shadow">
-              <Sparkles className="w-5 h-5 text-primary-foreground" />
+              <Compass className="w-5 h-5 text-primary-foreground" />
             </div>
-            <span className="text-xl font-bold text-foreground">JIGNASA</span>
+            <span className="text-xl font-bold text-foreground">Margadarshi AI</span>
           </Link>
 
           {/* Desktop Navigation */}

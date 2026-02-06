@@ -1,5 +1,5 @@
 import { useLanguage } from '@/contexts/LanguageContext';
-import { Sparkles, Mail, ExternalLink } from 'lucide-react';
+import { Compass, Mail, ExternalLink } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export function Footer() {
@@ -13,16 +13,16 @@ export function Footer() {
           <div className="md:col-span-2">
             <div className="flex items-center gap-2 mb-4">
               <div className="w-10 h-10 rounded-xl hero-gradient flex items-center justify-center">
-                <Sparkles className="w-5 h-5 text-primary-foreground" />
+                <Compass className="w-5 h-5 text-primary-foreground" />
               </div>
-              <span className="text-xl font-bold">JIGNASA</span>
+              <span className="text-xl font-bold">Margadarshi AI</span>
             </div>
             <p className="text-background/70 max-w-md mb-6">
               {t('footer.tagline')}
             </p>
             <div className="flex items-center gap-2 text-background/60">
               <Mail className="w-4 h-4" />
-              <span className="text-sm">support@jignasa.in</span>
+              <span className="text-sm">support@margadarshi.in</span>
             </div>
           </div>
 
@@ -75,11 +75,10 @@ export function Footer() {
         {/* Bottom */}
         <div className="pt-8 border-t border-background/10 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-sm text-background/60">
-            {t('footer.copyright')}
+            © 2024 Margadarshi AI. Built for Career Guidance.
           </p>
           <div className="flex items-center gap-2">
-            <span className="text-sm text-background/60">Powered by</span>
-            <span className="text-sm font-semibold text-saffron">AI Intelligence</span>
+            <span className="text-sm text-background/60">AI Career Guidance Assistant</span>
           </div>
         </div>
       </div>
