@@ -1,4 +1,4 @@
-// PDF Report Generator for JIGNASA Career Guidance Platform
+// PDF Report Generator for Margadarshi AI Career Guidance Platform
 
 import { jsPDF } from 'jspdf';
 import { CareerMatch, UserProfile } from './careerMatchingEngine';
@@ -44,11 +44,11 @@ export async function generateCareerReport(data: ReportData): Promise<void> {
   doc.setTextColor(255, 255, 255);
   doc.setFontSize(24);
   doc.setFont('helvetica', 'bold');
-  doc.text('JIGNASA', margin, 25);
+  doc.text('Margadarshi AI', margin, 25);
   
   doc.setFontSize(10);
   doc.setFont('helvetica', 'normal');
-  doc.text('AI Career Guidance Platform', margin, 33);
+  doc.text('AI Career Guidance Assistant', margin, 33);
   
   doc.setFontSize(8);
   doc.text(`Generated: ${generatedAt.toLocaleDateString('en-IN', { 
@@ -463,10 +463,10 @@ export async function generateCareerReport(data: ReportData): Promise<void> {
   // Footer
   doc.setTextColor(100, 100, 100);
   doc.setFontSize(8);
-  doc.text('© 2024 JIGNASA - AI Career Guidance Platform for Rural India', margin, yPos);
-  doc.text('Made with ❤️ for empowering rural youth', margin, yPos + 5);
+  doc.text('© 2024 Margadarshi AI - AI Career Guidance Assistant', margin, yPos);
+  doc.text('Built for Career Guidance', margin, yPos + 5);
   
   // Save the PDF
-  const fileName = `JIGNASA_Career_Report_${selectedCareer.career.title.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.pdf`;
+  const fileName = `Margadarshi_AI_Career_Report_${selectedCareer.career.title.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.pdf`;
   doc.save(fileName);
 }
